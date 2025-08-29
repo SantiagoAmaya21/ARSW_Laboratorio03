@@ -14,6 +14,7 @@ import java.util.logging.Logger;
  *
  * @author hcadavid
  */
+
 public class Consumer extends Thread{
     
     private BlockingQueue<Integer> queue;
@@ -21,12 +22,14 @@ public class Consumer extends Thread{
     
     public Consumer(BlockingQueue<Integer> queue){
         this.queue=queue;
+
     }
-    
+
     @Override
     public void run() {
         while (true) {
             try {
+
                 int item = queue.take();
                 System.out.println("Consumer consumes "+item);
                 Thread.sleep(1000);
@@ -38,6 +41,8 @@ public class Consumer extends Thread{
 //                System.out.println("Consumer consumes "+elem);
 //            }
             
+
         }
     }
 }
+

@@ -17,6 +17,7 @@ import java.util.logging.Logger;
  */
 public class Producer extends Thread {
 
+
     private BlockingQueue<Integer> queue = null;
 
     private int dataSeed = 0;
@@ -26,6 +27,7 @@ public class Producer extends Thread {
     public Producer(BlockingQueue<Integer> queue) {
         this.queue = queue;
         rand = new Random(System.currentTimeMillis());
+
     }
 
     @Override
@@ -39,7 +41,6 @@ public class Producer extends Thread {
             } catch (InterruptedException ex) {
                 Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
     }
 }
