@@ -17,23 +17,27 @@ import java.util.logging.Logger;
  */
 public class Producer extends Thread {
 
-    private final BlockingQueue<Integer> queue;
+
+    private BlockingQueue<Integer> queue = null;
+
     private int dataSeed = 0;
-    private final Random rand;
+    private Random rand=null;
+//    private final long stockLimit;
 
     public Producer(BlockingQueue<Integer> queue) {
         this.queue = queue;
-        this.rand = new Random(System.currentTimeMillis());
+        rand = new Random(System.currentTimeMillis());
+
     }
 
     @Override
     public void run() {
         while (true) {
-            try {
-                dataSeed += rand.nextInt(100);
+            try{
+                dataSeed = dataSeed + rand.nextInt(100);
                 System.out.println("Producer added " + dataSeed);
-                queue.put(dataSeed); // Bloquea si la cola está llena
-                Thread.sleep(500);   // Simula tiempo de producción
+                queue.offer(dataSeed);
+                Thread.sleep(500);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
             }

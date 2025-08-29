@@ -18,12 +18,13 @@ import java.util.logging.Logger;
 public class StartProduction {
 
     public static void main(String[] args) {
-
-        int stockLimit = 10; // Limite de productos en la cola
-        BlockingQueue<Integer> queue = new LinkedBlockingQueue<>(stockLimit);
-
+        int stockLimit = 10;
+        BlockingQueue<Integer> queue=new LinkedBlockingQueue<>(stockLimit);
+        
+        
         new Producer(queue).start();
-
+        
+        //let the producer create products for 5 seconds (stock).
         try {
             Thread.sleep(5000); // Dejamos que el productor llene el stock
         } catch (InterruptedException ex) {
