@@ -16,25 +16,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class StartProduction {
-    
-    
+
     public static void main(String[] args) {
-        
-        Queue<Integer> queue=new LinkedBlockingQueue<>();
-        
-        
-        new Producer(queue,Long.MAX_VALUE).start();
-        
-        //let the producer create products for 5 seconds (stock).
+
+        int stockLimit = 10; // Limite de productos en la cola
+        BlockingQueue<Integer> queue = new LinkedBlockingQueue<>(stockLimit);
+
+        new Producer(queue).start();
+
         try {
-            Thread.sleep(5000);
+            Thread.sleep(5000); // Dejamos que el productor llene el stock
         } catch (InterruptedException ex) {
             Logger.getLogger(StartProduction.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
         new Consumer(queue).start();
     }
-    
-
 }
