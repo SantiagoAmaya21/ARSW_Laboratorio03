@@ -54,6 +54,12 @@ public class Immortal extends Thread {
 
             this.fight(im);
 
+
+            // Condicional que cumple con eliminar inmortales que ya están sin vida (Punto 10a)
+//            if (im.getHealth() <= 0) {
+//                immortalsPopulation.remove(im);
+//            }
+
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
@@ -63,16 +69,25 @@ public class Immortal extends Thread {
     }
 
     public void fight(Immortal i2) {
-
-        if (i2.getHealth() > 0) {
-            i2.changeHealth(i2.getHealth() - defaultDamageValue);
-            this.health += defaultDamageValue;
-            updateCallback.processReport("Fight: " + this + " vs " + i2+"\n");
-        } else {
-            updateCallback.processReport(this + " says:" + i2 + " is already dead!\n");
+        Immortal firstLock = getLockOrderImmortal(this,i2);
+        Immortal secondLock = firstLock == this ? i2 : this;
+        synchronized (firstLock) {
+            synchronized (secondLock) {
+                if (i2.getHealth() > 0) {
+                    i2.changeHealth(i2.getHealth() - defaultDamageValue);
+                    this.health += defaultDamageValue;
+                    updateCallback.processReport("Fight: " + this + " vs " + i2 + "\n");
+                } else {
+                    updateCallback.processReport(this + " says:" + i2 + " is already dead!\n");
+                }
+            }
         }
-
     }
+
+    public static Immortal getLockOrderImmortal(Immortal a, Immortal b) {
+        return System.identityHashCode(a) < System.identityHashCode(b) ? a : b;
+    }
+
 
     public void changeHealth(int v) {
         health = v;
