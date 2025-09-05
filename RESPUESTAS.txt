@@ -1,0 +1,2 @@
+Punto10.
+a) Sí, es posible que ocurra una condición de carrera, ya que múltiples hilos pueden intentar acceder y modificar la misma variable al mismo tiempo, por ejemplo al tratar de eliminar a otro inmortal simultáneamente, lo que provoca que la lista se altere de manera concurrente.

@@ -10,6 +10,7 @@ import edu.eci.arsw.threads.HostBlacklistThread;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +21,8 @@ import java.util.logging.Logger;
 public class HostBlackListsValidator {
 
     public static final int BLACK_LIST_ALARM_COUNT=5;
-    
+
+    public static AtomicInteger globalOccurrences = new AtomicInteger(0);
     /**
      * Check the given host's IP address in all the available black lists,
      * and report it as NOT Trustworthy when such IP was reported in at least
@@ -75,6 +77,10 @@ public class HostBlackListsValidator {
         LOG.log(Level.INFO, "Checked Black Lists:{0} of {1}", new Object[]{checkedListsCount, skds.getRegisteredServersCount()});
         
         return blackListOcurrences;
+    }
+
+    public AtomicInteger getGlobalOccurrences() {
+        return globalOccurrences;
     }
 
     private static final Logger LOG = Logger.getLogger(HostBlackListsValidator.class.getName());

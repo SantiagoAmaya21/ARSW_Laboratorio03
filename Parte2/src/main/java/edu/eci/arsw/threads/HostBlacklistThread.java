@@ -43,11 +43,12 @@ public class HostBlacklistThread extends Thread {
      */
     @Override
     public void run() {
-        for (int i = start; i < end && appearanceCounter < HostBlackListsValidator.BLACK_LIST_ALARM_COUNT; i++) {
+        for (int i = start; i < end && HostBlackListsValidator.globalOccurrences.get() < HostBlackListsValidator.BLACK_LIST_ALARM_COUNT; i++) {
             reviewedListCounter++;
             if (skds.isInBlackListServer(i, ipHostAddress)) {
                 blacklistAppearances.add(i);
                 appearanceCounter++;
+                HostBlackListsValidator.globalOccurrences.incrementAndGet();
             }
         }
     }
