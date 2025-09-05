@@ -6,29 +6,43 @@
 package edu.eci.arst.concprg.prodcons;
 
 import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author hcadavid
  */
+
 public class Consumer extends Thread{
     
-    private Queue<Integer> queue;
+    private BlockingQueue<Integer> queue;
     
     
-    public Consumer(Queue<Integer> queue){
-        this.queue=queue;        
+    public Consumer(BlockingQueue<Integer> queue){
+        this.queue=queue;
+
     }
-    
+
     @Override
     public void run() {
         while (true) {
+            try {
 
-            if (queue.size() > 0) {
-                int elem=queue.poll();
-                System.out.println("Consumer consumes "+elem);                                
+                int item = queue.take();
+                System.out.println("Consumer consumes "+item);
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Logger.getLogger(Consumer.class.getName()).log(Level.SEVERE, null, e);
             }
+//            if (queue.size() > 0) {
+//                int elem=queue.poll();
+//                System.out.println("Consumer consumes "+elem);
+//            }
             
+
         }
     }
 }
+
